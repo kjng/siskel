@@ -15,14 +15,13 @@ var Movies = Backbone.Collection.extend({
   model: Movie,
 
   initialize: function() {
-    this.on('change', function() {
-      this.sort();
-    });
+    this.on('change', this.sort, this);
   },
 
   comparator: 'title',
 
   sortByField: function(field) {
+    // http://stackoverflow.com/questions/5930656/setting-attributes-on-a-collection-backbone-js
     this.comparator = field;
     this.sort();
   }
@@ -61,9 +60,7 @@ var MovieView = Backbone.View.extend({
                         </div>'),
 
   initialize: function() {
-    this.model.on('change', function() {
-      this.render();
-    }, this);
+    this.model.on('change', this.render, this);
   },
 
   events: {
